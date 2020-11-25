@@ -1,0 +1,21 @@
+什么是Reactor
+
+1-事件驱动（event handling）
+2-可以处理一个或多个输入源（one or more inputs）
+3-通过Service Handler同步的将输入事件（Event）采用多路复用分发给相应的Request Handler（多个）处理
+
+
+NIO:
+
+	1-更少的资源利用，通常不需要一个客户端一个线程
+	2-更少的开销，更少的上下文切换以及locking
+	3-能够跟踪服务器状态
+	4-能够管理handler 对event的绑定
+
+学习netty就要先了解Reactor三种线程模型
+单 Reactor 单线程；
+单 Reactor 多线程；
+主从 Reactor 多线程
+Netty 的线程模型是主要是基于主从 Reactor 多线程模型改成了主从 Reactor 多线程模型有多个 Reactor模式
+
+Reactor 是netty的理论支持
