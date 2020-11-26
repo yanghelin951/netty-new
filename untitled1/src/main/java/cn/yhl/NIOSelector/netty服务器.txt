@@ -1,0 +1,16 @@
+1.创建 Selector对象 ServerSocketChannel 对象 绑定端口
+2.把ServerSocketChannel注册到selector中
+3.循环等待连接
+4.监听事件 等待连接进来
+5.处理事件 查看selectionKey中的事件 做对应的处理
+6.从集合中删除selectionKey以防重复操作
+
+
+//将socketChannel设为非阻塞 设置之后，就可以在异步模式下调用connect(), read() 和write()了
+ socketChannel.configureBlocking(false);
+
+ selector.select(1000) 在一秒内接收通道的事件 有事件就返回>0 无事件=0
+ selector.select()一直接收
+ selector.wakeup唤醒
+ selector.selectNow()直接返回不阻塞
+

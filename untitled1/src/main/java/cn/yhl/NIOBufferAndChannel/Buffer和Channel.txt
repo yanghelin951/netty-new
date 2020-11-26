@@ -1,0 +1,28 @@
+Scattering :离散 数据写入buffer时，可以使用buffer数组依次写入
+Gathering：聚合 从buffer读取数据时，可以采用buffer数组，一次读
+
+
+ServerSocketChannel是一个可以监听新进来的TCP连接的通道
+
+
+Channel 是相当与IO流 
+
+buffer 和Chennel  
+
+	写入文件（Channel.rede） 读文件(Chennel.write)  使用一个buffer拷贝文件(buffer.flip)  
+	FileOutputStream
+	FileChannel
+
+	直接在内存中修改文件（channel.map）
+	RandomAccessFile
+	FileChannel.map("',"","")
+		map方法有桑参数
+           	 	 1.FileChannel.MapMode.READ_WRITE 使用读写模式
+          	 	 2.  0 从下标0开始
+          	 	 3.  5  映射内存的大小 就是1.txt文件映射到内存的大小5个字节
+           		 可以直接修改的范围就是0-4 （0 1 2 3 4）
+	
+	离散聚合（buffer数组）：
+	ServerSocketChannel
+	SocketChannel
+	InetSocketAddress	
