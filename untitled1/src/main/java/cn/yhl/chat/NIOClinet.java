@@ -1,8 +1,7 @@
-package cn.yhl.NIOSelector;
+package cn.yhl.chat;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
-import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
 
 public class NIOClinet {
@@ -19,12 +18,12 @@ public class NIOClinet {
                 System.out.println("正在连接，请稍等！！！！");
             }
         }
-        String str="hello 李一凡";
-        //创建Buffer
-        ByteBuffer wrap = ByteBuffer.wrap(str.getBytes());
-        //写入Channel
-        socketChannel.write(wrap);
-        System.in.read();
+//        String str="hello 李一凡";
+//        //创建Buffer
+//        ByteBuffer wrap = ByteBuffer.wrap(str.getBytes());
+//        //写入Channel
+//        socketChannel.write(wrap);
+//        System.in.read();
 
 
     }
