@@ -12,7 +12,7 @@ public class NIOClinet {
         //设置非阻塞
         socketChannel.configureBlocking(false);
         //设置端口和ip
-        InetSocketAddress inetSocketAddress = new InetSocketAddress("127.0.0.1", 6667);
+        InetSocketAddress inetSocketAddress = new InetSocketAddress("127.0.0.1", 6666);
         //连接不成功等待一会
         if(!socketChannel.connect(inetSocketAddress)){
             while(!socketChannel.finishConnect()){
