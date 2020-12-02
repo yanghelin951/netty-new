@@ -1,0 +1,29 @@
+netty 心跳是在TCP长连接中，客户端和服务端定时向对方发送数据包通知对方自己还在线，保证连接的有效性的一种机制
+是服务器每隔x秒，没有收到或接收送到客户端的消息 就会发送的事件
+服务端添加IdleStateHandler心跳检测处理器，并添加自定义处理Handler类实现userEventTriggered()方法作为超时事件的逻辑处理；
+
+ch.pipeline().addLast(new IdleStateHandler(3,5,7, TimeUnit.SECONDS));
+
+ @Override
+public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
+
+        if(evt instanceof IdleStateEvent){
+            IdleStateEvent evt1 = (IdleStateEvent) evt;
+            System.out.print(ctx.channel().remoteAddress()+"用户：");
+            String status=null;
+            switch (evt1.state()){
+                case ALL_IDLE:
+                    status="读写空闲";
+                    break;
+
+                case READER_IDLE:
+                   status="读空闲";
+                    break;
+                case WRITER_IDLE:
+                    status="写空闲";
+                    break;
+            }
+            System.out.println(status);
+            //ctx.channel().writeAndFlush(status);
+        }
+    }
