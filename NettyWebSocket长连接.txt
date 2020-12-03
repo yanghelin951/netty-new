@@ -1,0 +1,53 @@
+  	            //添加http编解码器
+                            pipeline.addLast(new HttpServerCodec());
+                            //以块方式写
+                            pipeline.addLast(new ChunkedWriteHandler());
+                            /*
+                            1、http数据在传输过程中是分段的，HttpObjectAggregator 可以将多个端 合起来
+                            2、这就是为什么当浏览器发送大量数据时 会发生多次请求
+                             */
+                            pipeline.addLast(new HttpObjectAggregator(8192));
+                            /*
+                            1、对应websocket 他的数据是以 帧（frame）的方式传递的
+                            2、WebsocketFrame 有六个子类
+                            3、浏览器请求时 ws://localhost:7000/hello 表示请求的uri
+                            4、WebSocketServerProtocolHandler 核心功能是将http 协议升级为 ws协议
+                             */
+                            pipeline.addLast(new WebSocketServerProtocolHandler("/hello"));
+
+
+
+自定义的Handler需要继承 SimpleChannelInboundHandler<TextWebSocketFrame> 中需要存放 TextWebSocketFrame
+
+//这里 TextWebSocketFrame 类型，表示一个文本帧(frame)
+public class MyTextWebSocketFrameHandler extends SimpleChannelInboundHandler<TextWebSocketFrame>{
+    @Override
+    protected void channelRead0(ChannelHandlerContext ctx, TextWebSocketFrame msg) throws Exception {
+
+        System.out.println("服务器收到消息 " + msg.text());
+
+        //回复消息
+        ctx.channel().writeAndFlush(new TextWebSocketFrame("服务器时间" + LocalDateTime.now() + " " + msg.text()));
+    }
+
+    //当web客户端连接后， 触发方法
+    @Override
+    public void handlerAdded(ChannelHandlerContext ctx) throws Exception {
+        //id 表示唯一的值，LongText 是唯一的 ShortText 不是唯一
+        System.out.println("handlerAdded 被调用" + ctx.channel().id().asLongText());
+        System.out.println("handlerAdded 被调用" + ctx.channel().id().asShortText());
+    }
+
+
+    @Override
+    public void handlerRemoved(ChannelHandlerContext ctx) throws Exception {
+
+        System.out.println("handlerRemoved 被调用" + ctx.channel().id().asLongText());
+    }
+
+    @Override
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+        System.out.println("异常发生 " + cause.getMessage());
+        ctx.close(); //关闭连接
+    }
+}
